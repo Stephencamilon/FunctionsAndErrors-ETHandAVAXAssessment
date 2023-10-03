@@ -1,53 +1,24 @@
 # FunctionsAndErrors-ETHandAVAXAssessment
-Hello World! in Solidity
+# Exception Handling Smart Contract
 
 
-Installation
-1. Install Node.js
-2. Install Truffle by running the command prompt:
-  ```bash
-npm install -g truffle
-```
+## Description
+This Solidity smart contract showcases the usage of require(), assert(), and revert() statements for exception handling respectively.
 
-Initialization
-1. Intialize the project through Truffle:
-  ```bash
-truffle init
-```
-2. The "Hello World!" contract can be found in contracts/HelloWorld.sol:
-```solidity
 
-pragma solidity ^0.8.17;
+### Contract Details
+1. setValue(uint _value): Sets the value variable after checking if _value is greater than zero using require().
 
-contract HelloWorld {
-    string public greet = "Hello World!";
-}
-```
-3. Prepare the migration through: `migrations/2_deploy_migration.js:`
-```javascript
+2. assertExample(): Demonstrates the use of assert() for internal consistency checks.
 
-var HelloWorld = artifacts.require("HelloWorld");
-module.exports = function(deployer) {
-  deployer.deploy(HelloWorld);
-}
-```
-4. Start Truffle console in development mode:
-```bash
-truffle develop
-```
-5. Then, run each of the following code:
-```bash
-compile
-migrate
-```
-6. Lastly, test the contract via Truffle console:
-```javascript
+3. revertExample(): Shows how to use revert() to explicitly revert a transaction with a custom error message.
 
-let instance = await HelloWorld.deployed()
-instance.greet()
 
-```
-7. And the output is:
-```bash
-'Hello World!'
-```
+### Help and Support
+Should you encounter any challenges or have inquiries, please don't hesitate to refer to my GitHub account provided below. Your queries will be promptly addressed. Thank you for your consideration!
+
+### Authors
+Stephen Camilon
+
+### License
+This project is licensed under the MIT License - refer to the LICENSE.md file for comprehensive details.
