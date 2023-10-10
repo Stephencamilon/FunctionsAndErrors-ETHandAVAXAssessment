@@ -7,11 +7,11 @@ This Solidity smart contract showcases the usage of require(), assert(), and rev
 
 
 ### Contract Details
-1. setValue(uint _value): Sets the value variable after checking if _value is greater than zero using require().
+1. The require() statement checks if the amount is greater than zero.
 
-2. assertExample(): Demonstrates the use of assert() for internal consistency checks.
+2. The assert() checks the addition of the amount so that it would not cause any cash or transaction overflows.
 
-3. revertExample(): Shows how to use revert() to explicitly revert a transaction with a custom error message.
+3. revert() checks if the amount is equal to 42. If so, it will prompt and say "cannot deposit the number 42".
 
 
 ### Help and Support
