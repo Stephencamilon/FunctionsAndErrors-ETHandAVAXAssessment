@@ -1,22 +1,41 @@
-
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.0;
 
-contract ExceptionHandlingExample {
-    uint public value;
+contract AdvancedSmartContract {
+    address public owner;
+    mapping(address => uint256) public balances;
 
-    function setValue(uint _value) public {
-        require(_value > 0, "Value must be greater than zero");
-        value = _value;
+    constructor() {
+        owner = msg.sender;
     }
 
-    function assertExample() public view {
-        uint a = 1;
-        uint b = 2;
-        assert(a == b);
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function");
+        _;
     }
 
-    function revertExample() public pure {
-        revert("This transaction has been reverted");
+    function deposit(uint256 _amount) public {
+        // Example of require statement
+        require(_amount > 0, "Amount must be greater than zero");
+
+        // Example of assert statement
+        assert(balances[msg.sender] + _amount >= balances[msg.sender]);
+
+        // Example of revert statement
+        if (_amount == 42) {
+            revert("Cannot deposit the special number 42");
+        }
+
+        balances[msg.sender] += _amount;
+    }
+
+    function withdraw(uint256 _amount) public onlyOwner {
+        // Example of require statement
+        require(_amount <= balances[msg.sender], "Insufficient balance");
+
+        // Example of assert statement
+        assert(balances[msg.sender] - _amount >= 0);
+
+        balances[msg.sender] -= _amount;
     }
 }
