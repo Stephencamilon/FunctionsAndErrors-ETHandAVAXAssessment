@@ -1,41 +1,56 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract AdvancedSmartContract {
-    address public owner;
-    mapping(address => uint256) public balances;
+contract SmartContractWithLimit {
+    address public contractOwner;
+    mapping(address => uint256) public userBalances;
+    uint256 public totalTokens;
+    uint256 public maxDepositLimit = 9999;
+    uint256 public maxWithdrawLimit = 5000;
+
+    event DepositMade(address indexed account, uint256 amount);
+    event WithdrawalMade(address indexed account, uint256 amount);
 
     constructor() {
-        owner = msg.sender;
+        contractOwner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can call this function");
+        require(msg.sender == contractOwner, "Only the owner can call this function");
         _;
     }
 
     function deposit(uint256 _amount) public {
-        // Example of require statement
-        require(_amount > 0, "Amount must be greater than zero");
-
-        // Example of assert statement
-        assert(balances[msg.sender] + _amount >= balances[msg.sender]);
-
-        // Example of revert statement
-        if (_amount == 42) {
-            revert("Cannot deposit the special number 42");
+        require(_amount > 0, "The amount must not be negative or zero");
+        
+        if (_amount > maxDepositLimit) {
+            revert("Deposit amount exceeds maximum limit");
         }
 
-        balances[msg.sender] += _amount;
+        assert(totalTokens + _amount >= totalTokens);
+
+        totalTokens += _amount;
+        userBalances[msg.sender] += _amount;
+
+        emit DepositMade(msg.sender, _amount);
     }
 
     function withdraw(uint256 _amount) public onlyOwner {
-        // Example of require statement
-        require(_amount <= balances[msg.sender], "Insufficient balance");
+        require(_amount <= userBalances[msg.sender], "Insufficient balance");
 
-        // Example of assert statement
-        assert(balances[msg.sender] - _amount >= 0);
+        if (_amount > maxWithdrawLimit) {
+            revert("Withdrawal amount exceeds maximum limit");
+        }
 
-        balances[msg.sender] -= _amount;
+        assert(userBalances[msg.sender] - _amount >= 0);
+
+        userBalances[msg.sender] -= _amount;
+        totalTokens -= _amount;
+
+        emit WithdrawalMade(msg.sender, _amount);
+    }
+
+    function getBalance(address _account) public view returns (uint256) {
+        return userBalances[_account];
     }
 }
